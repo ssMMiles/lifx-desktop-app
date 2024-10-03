@@ -2,9 +2,9 @@ use std::{collections::HashMap, sync::{mpsc::Sender, Arc}};
 
 use axum::{routing::{get, post}, Router};
 use tokio::sync::{Mutex, RwLock};
-use tower_http::cors::CorsLayer;
+use tower_http::{cors::CorsLayer, services::ServeDir};
 
-use crate::{routes::{color, get_lights, index, power}, Light, Request};
+use crate::{routes::{color, get_lights, power}, Light, Request};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -22,7 +22,7 @@ pub async fn start_webserver(tx: std::sync::mpsc::Sender<Request>, lights: Arc<R
     };
 
     let app: Router = Router::new()
-        .route("/", get(index))
+        .nest_service("/", ServeDir::new("static/"))
         .route("/api/lights", get(get_lights))
         .route("/api/setPower", post(power))
         .route("/api/setColor", post(color))

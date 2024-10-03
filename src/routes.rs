@@ -6,12 +6,6 @@ use serde::Deserialize;
 
 use crate::{web::AppState, Light, Request};
 
-const INDEX_HTML: &'static str = include_str!("../web/index.html");
-
-pub async fn index() -> Html<&'static str> {
-    Html(INDEX_HTML)
-}
-
 pub async fn get_lights(state: State<AppState>) -> Json<HashMap<String, Light>> {
     let lights_read_guard = state.lights.read().await;
     
