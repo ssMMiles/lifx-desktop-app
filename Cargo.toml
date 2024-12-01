@@ -10,6 +10,7 @@ ctrlc = "3.4.5"
 env_logger = "0.11.5"
 lifx_lan = { path = "../lifx-lan" }
 log = "0.4.22"
+native-tls = "0.2.12"
 
 network-interface = "2.0.0"
 rand = "0.8.5"

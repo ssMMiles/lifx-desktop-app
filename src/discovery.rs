@@ -32,6 +32,11 @@ pub async fn broadcast_discovery_requests(tx: std::sync::mpsc::Sender<Request>, 
                 match addr {
                     Addr::V4(v4addr) => {
                         if let Some(broadcast_address) = v4addr.broadcast {
+                            if broadcast_address.to_string() == "172.16.0.255" {
+                                // lifx bulb's own network, skip
+                                continue;
+                            }
+
                             let target = format!("{}:56700", broadcast_address);
                             if count_since_last_discovery == DISCOVERY_REQUEST_INTERVAL_FACTOR {
                                 tx.send(Request {

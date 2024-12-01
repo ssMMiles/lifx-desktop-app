@@ -59,11 +59,47 @@
             font-size: 1.5em;
             color: #555;
         }
+
+        .onboard-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
+    <button class="onboard-button" onclick="triggerOnboarding()">Onboard New Light</button>
+    
+    <script>
+        function triggerOnboarding() {
+            const ssid = prompt("Enter SSID:");
+            if (!ssid) return;
 
+            const password = prompt("Enter Password:");
+            if (!password) return;
+
+            fetch('/api/onboard', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ssid, password })
+            })
+                .then(data => {
+                    alert('Onboarding request sent.');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to send onboarding request.');
+                });
+        }
+    </script>
+    
     <div id="lights-container"></div>
     <div id="no-lights-message">No lights found</div>
 

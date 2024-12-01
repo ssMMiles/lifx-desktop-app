@@ -4,7 +4,7 @@ use axum::{routing::{get, post}, Router};
 use tokio::sync::{Mutex, RwLock};
 use tower_http::{cors::CorsLayer, services::ServeDir};
 
-use crate::{routes::{color, get_lights, power}, Light, Request};
+use crate::{routes::{color, get_lights, trigger_onboarding, power}, Light, Request};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -26,6 +26,7 @@ pub async fn start_webserver(tx: std::sync::mpsc::Sender<Request>, lights: Arc<R
         .route("/api/lights", get(get_lights))
         .route("/api/setPower", post(power))
         .route("/api/setColor", post(color))
+        .route("/api/onboard", post(trigger_onboarding))
         .layer(
             CorsLayer::permissive(),
         )

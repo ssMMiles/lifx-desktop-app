@@ -1,10 +1,10 @@
 use std::collections::HashMap;
 
-use axum::{extract::{Query, State}, response::Html, Json};
+use axum::{body::Body, extract::{Query, State}, Json};
 use lifx_lan::{LifxRequestOptions, Message};
 use serde::Deserialize;
 
-use crate::{web::AppState, Light, Request};
+use crate::{onboard::send_onboarding_request, web::AppState, Light, Request};
 
 pub async fn get_lights(state: State<AppState>) -> Json<HashMap<String, Light>> {
     let lights_read_guard = state.lights.read().await;
@@ -121,4 +121,19 @@ pub async fn color(state: State<AppState>, query: Query<ColorRequest>) {
         },
         target: query.ip.clone(),
     }).unwrap(); 
+}
+
+#[derive(Deserialize)]
+pub struct OnboardingRequest {
+    ssid: String,
+    password: String,
+}
+
+pub async fn trigger_onboarding(state: State<AppState>, body: Json<OnboardingRequest>) {
+    log::debug!("Onboarding request");
+
+    let ssid = body.ssid.clone();
+    let password = body.password.clone();
+
+    send_onboarding_request(ssid, password).unwrap();
 }

@@ -16,6 +16,7 @@ extern crate socket2;
 
 mod socket;
 mod discovery;
+mod onboard;
 
 mod web;
 mod routes;
