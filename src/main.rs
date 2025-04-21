@@ -81,6 +81,9 @@ struct Light {
     pub brightness: Option<u16>,
 
     pub kelvin: Option<u16>,
+
+    // timestamp in ms of when the light was last seen online (sent a response)
+    pub last_seen_ms: Option<u64>,
 }
 
 impl Default for Light {
@@ -96,6 +99,8 @@ impl Default for Light {
             brightness: None,
 
             kelvin: None,
+
+            last_seen_ms: None,
         }
     }
 }

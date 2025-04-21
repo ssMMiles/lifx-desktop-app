@@ -4,7 +4,7 @@ use axum::{routing::{get, post}, Router};
 use tokio::sync::{Mutex, RwLock};
 use tower_http::{cors::CorsLayer, services::ServeDir};
 
-use crate::{routes::{color, get_lights, trigger_onboarding, power}, Light, Request};
+use crate::{routes::{color, get_lights, power, set_name, trigger_onboarding}, Light, Request};
 
 #[derive(Clone)]
 pub struct AppState {
@@ -26,6 +26,7 @@ pub async fn start_webserver(tx: std::sync::mpsc::Sender<Request>, lights: Arc<R
         .route("/api/lights", get(get_lights))
         .route("/api/setPower", post(power))
         .route("/api/setColor", post(color))
+        .route("/api/setName", post(set_name))
         .route("/api/onboard", post(trigger_onboarding))
         .layer(
             CorsLayer::permissive(),
@@ -35,7 +36,7 @@ pub async fn start_webserver(tx: std::sync::mpsc::Sender<Request>, lights: Arc<R
     let address = std::env::var("WEB_LISTEN_ADDRESS").unwrap_or_else(|_| "0.0.0.0".to_string());
     let port = std::env::var("WEB_LISTEN_PORT").unwrap_or_else(|_| "3000".to_string());
 
-    log::info!("Starting webserver on {}:{}", address, port);
+    log::info!("Starting webserver on http://{}:{}", address, port);
 
     let listener = tokio::net::TcpListener::bind(format!("{}:{}", address, port)).await.unwrap();
     axum::serve(listener, app).await.unwrap();

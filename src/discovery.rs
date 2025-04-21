@@ -38,25 +38,24 @@ pub async fn broadcast_discovery_requests(tx: std::sync::mpsc::Sender<Request>, 
                             }
 
                             let target = format!("{}:56700", broadcast_address);
-                            if count_since_last_discovery == DISCOVERY_REQUEST_INTERVAL_FACTOR {
-                                tx.send(Request {
-                                    options: req_options.clone(),
-                                    message: Message::GetLabel,
-                                    target: target.clone(),
-                                })
-                                .unwrap();
+                            // if count_since_last_discovery == DISCOVERY_REQUEST_INTERVAL_FACTOR {
+                            //     tx.send(Request {
+                            //         options: req_options.clone(),
+                            //         message: Message::GetColor,
+                            //         target: target.clone(),
+                            //     })
+                            //     .unwrap();
                         
-                                req_options.increment_sequence();
                         
-                                tx.send(Request {
-                                    options: req_options.clone(),
-                                    message: Message::GetHostFirmware,
-                                    target: target.clone(),
-                                })
-                                .unwrap();
+                            //     // tx.send(Request {
+                            //     //     options: req_options.clone(),
+                            //     //     message: Message::GetHostFirmware,
+                            //     //     target: target.clone(),
+                            //     // })
+                            //     // .unwrap();
 
-                                req_options.increment_sequence();
-                            }
+                            //     // req_options.increment_sequence();
+                            // }
 
                             tx.send(Request {
                                 options: req_options.clone(),
@@ -64,7 +63,6 @@ pub async fn broadcast_discovery_requests(tx: std::sync::mpsc::Sender<Request>, 
                                 target: target.clone(),
                             })
                             .unwrap();
-                    
                             req_options.increment_sequence();
                         }
                     }

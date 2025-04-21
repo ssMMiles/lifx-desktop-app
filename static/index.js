@@ -12,15 +12,16 @@ function populateLights(data) {
     for (let ip of Object.keys(data)) {
         const light = data[ip];
         const currentColour = hsvToHex(light.hue, light.saturation, light.brightness);
+        const isOn = light.power === 65535;
 
         const existingLightCard = document.getElementById(ip);
         if (existingLightCard) {
-            existingLightCard.querySelector('#power').innerHTML = `<strong>Power:</strong> ${light.power}`;
-            existingLightCard.querySelector('#hue').innerHTML = `<strong>Hue:</strong> ${light.hue}`;
-            existingLightCard.querySelector('#saturation').innerHTML = `<strong>Saturation:</strong> ${light.saturation}`;
-            existingLightCard.querySelector('#brightness').innerHTML = `<strong>Brightness:</strong> ${light.brightness}`;
-            existingLightCard.querySelector('#kelvin').innerHTML = `<strong>Kelvin:</strong> ${light.kelvin}`;
-            // existingLightCard.querySelector('#color-picker').value = currentColour;
+            existingLightCard.querySelector('#label').innerText = light.label;
+            existingLightCard.querySelector('#power').innerHTML = `
+                <button class="power-button ${isOn ? 'on' : 'off'}" onclick="togglePower('${ip}')">
+                    ${isOn ? 'On' : 'Off'}
+                </button>
+            `;
             continue;
         }
 
@@ -30,15 +31,12 @@ function populateLights(data) {
         lightCard.classList.add('light-card');
 
         lightCard.innerHTML = `
-            <h2>${light.label}</h2>
-            <div id="ip"><strong>IP:</strong> ${ip}</div>
-            <div id="firmware"><strong>Firmware:</strong> ${light.firmware_version}</div>
-            <div id="power"><strong>Power:</strong> ${light.power}</div>
-            <div id="hue"><strong>Hue:</strong> ${light.hue}</div>
-            <div id="saturation"><strong>Saturation:</strong> ${light.saturation}</div>
-            <div id="brightness"><strong>Brightness:</strong> ${light.brightness}</div>
-            <div id="kelvin"><strong>Kelvin:</strong> ${light.kelvin}</div>
-            <button class="power-button" onclick="togglePower('${ip}', )">Toggle Power</button>
+            <h2 id="label">${light.label}</h2>
+            <div id="power">
+                <button class="power-button ${isOn ? 'on' : 'off'}" onclick="togglePower('${ip}')">
+                    ${isOn ? 'On' : 'Off'}
+                </button>
+            </div>
             <input type="color" id="color-picker" value="${currentColour}">
         `;
 

@@ -69,6 +69,30 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        @media (max-width: 600px) {
+            body {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 10px;
+            }
+            #lights-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .light-card {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 15px;
+            }
+            .onboard-button {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            #no-lights-message {
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 
