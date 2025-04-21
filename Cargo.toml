@@ -18,4 +18,5 @@ serde = { version = "1.0.210", features = ["derive"] }
 
 socket2 = { version = "0.5.7", features = ["all"] }
 tokio = { version = "1", features = ["full"] }
+tower = "0.5.2"
 tower-http = { version = "0.5.2", features = ["cors", "fs"] }
