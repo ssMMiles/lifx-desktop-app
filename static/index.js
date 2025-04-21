@@ -56,12 +56,12 @@ function populateLights(data) {
 </svg>
                     </button>
                 </div>
-                <input type="color" id="color-picker" value="${currentColour}">
+                <hex-color-picker id="color-picker" color="${currentColour}"></hex-color-picker>
             </div>
         `;
 
-        lightCard.querySelector('#color-picker').addEventListener('input', (event) => {
-            const color = event.target.value;
+        lightCard.querySelector('#color-picker').addEventListener('color-changed', (event) => {
+            const color = event.detail.value;
 
             const [r, g, b] = hexToRgb(color);
             const { h, s, v } = RGBtoHSV(r, g, b);
